@@ -1,23 +1,31 @@
 services:
+
   backend:
     build:
       context: .
       dockerfile: backend/Dockerfile
+
     container_name: industrial-maintenance-backend
+
     ports:
       - "8001:8001"
-    environment:
-      MONGO_URL: ${MONGO_URL}
-      DB_NAME: ${DB_NAME}
+
+    env_file:
+      - ./backend/.env
+
     restart: unless-stopped
 
   frontend:
     build:
       context: ./frontend
       dockerfile: Dockerfile
+
     container_name: industrial-maintenance-frontend
+
     ports:
       - "5500:80"
+
     depends_on:
       - backend
+
     restart: unless-stopped
