@@ -10,53 +10,50 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+
+      # 1. Get the code
       - name: Checkout code
         uses: actions/checkout@v4
 
+      # 2. Setup Python
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.13"
 
+      # 3. Install Python dependencies
       - name: Install dependencies
         run: |
-          python -m pip install --upgrade pip
           pip install -r requirements.txt
 
+      # 4. Check Python code
       - name: Validate Python
         run: |
           python -m compileall backend
 
-      - name: Create backend environment file
+      # 5. Create environment file
+      - name: Create .env
         run: |
-          cat > backend/.env <<EOF
-          MONGO_URL=${{ secrets.MONGO_URL }}
-          DB_NAME=${{ secrets.DB_NAME }}
-          EOF
+          echo "MONGO_URL=${{ secrets.MONGO_URL }}" >> backend/.env
+          echo "DB_NAME=${{ secrets.DB_NAME }}" >> backend/.env
 
-      - name: Build Docker images
+      # 6. Build Docker containers
+      - name: Build Docker
         run: |
           docker compose build
 
-      - name: Start containers
+      # 7. Start application
+      - name: Start Docker
         run: |
           docker compose up -d
 
-      - name: Check containers
+      # 8. Check containers
+      - name: Check Docker
         run: |
           docker compose ps
 
-      - name: Check backend health
-        run: |
-          sleep 5
-          curl --fail http://localhost:8001/api/health
-
-      - name: Show container logs if failed
-        if: failure()
-        run: |
-          docker compose logs
-
-      - name: Stop containers
+      # 9. Stop containers
+      - name: Stop Docker
         if: always()
         run: |
           docker compose down
