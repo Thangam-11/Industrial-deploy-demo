@@ -9,10 +9,6 @@ jobs:
   build-and-test:
     runs-on: ubuntu-latest
 
-    env:
-      MONGO_URL: ${{ secrets.MONGO_URL }}
-      DB_NAME: ${{ secrets.DB_NAME }}
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -24,11 +20,19 @@ jobs:
 
       - name: Install dependencies
         run: |
+          python -m pip install --upgrade pip
           pip install -r requirements.txt
 
       - name: Validate Python
         run: |
           python -m compileall backend
+
+      - name: Create backend environment file
+        run: |
+          cat > backend/.env <<EOF
+          MONGO_URL=${{ secrets.MONGO_URL }}
+          DB_NAME=${{ secrets.DB_NAME }}
+          EOF
 
       - name: Build Docker images
         run: |
@@ -41,6 +45,16 @@ jobs:
       - name: Check containers
         run: |
           docker compose ps
+
+      - name: Check backend health
+        run: |
+          sleep 5
+          curl --fail http://localhost:8001/api/health
+
+      - name: Show container logs if failed
+        if: failure()
+        run: |
+          docker compose logs
 
       - name: Stop containers
         if: always()
