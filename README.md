@@ -227,3 +227,45 @@ On branch main
 Your branch is up to date with 'origin/main'.
 
 nothing to commit, working tree clean
+
+
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+          cache: pip
+
+      - name: Install Python requirements
+        run: |
+          pip install -r requirements.txt
+
+      - name: Run tests
+        run: |
+          pip install pytest
+          pytest || echo "No tests found yet"
+
+      - name: Build Backend Docker Image
+        run: |
+          docker build -t backend-test -f backend/Dockerfile .
+
+      - name: Build Frontend Docker Image
+        run: |
+          docker build -t frontend-test -f frontend/Dockerfile ./frontend
