@@ -203,3 +203,27 @@ You can serve the `frontend/` directory using any local web server:
 
 
 http://localhost:8001
+
+SubscriptionId                        TenantId
+------------------------------------  ------------------------------------
+cls
+  fedecf73-d9a6-43bc-8d6d-4e3bdc0e044e
+
+Client ID: 56164e18-c4d2-4ba6-b092-946609290bd9
+
+
+.venv) PS C:\Users\thang\Desktop\Industrial-Maintenance-and-Process-Optimization-System> git add .github/workflows/ci.yml .github/workflows/cd.yml
+(.venv) PS C:\Users\thang\Desktop\Industrial-Maintenance-and-Process-Optimization-System> git commit -m "Add CI/CD pipeline for Azure Container Apps"
+
+On branch main
+Your branch is up to date with 'origin/main'.
+
+nothing to commit, working tree clean
+
+.venv) PS C:\Users\thang\Desktop\Industrial-Maintenance-and-Process-Optimization-System> git add .github/workflows/ci.yml .github/workflows/cd.yml
+(.venv) PS C:\Users\thang\Desktop\Industrial-Maintenance-and-Process-Optimization-System> git commit -m "Add CI/CD pipeline for Azure Container Apps"
+
+On branch main
+Your branch is up to date with 'origin/main'.
+
+nothing to commit, working tree clean
