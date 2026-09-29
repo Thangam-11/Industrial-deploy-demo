@@ -14,8 +14,8 @@ permissions:
   contents: read
 
 env:
-  RESOURCE_GROUP: industrial-demo-rg
-  ACR_NAME: industrialacrdemoproject
+  RESOURCE_GROUP: industrial-demo-project
+  ACR_NAME: industrialacrdemoprojectacr
   BACKEND_APP: industrial-backend-demo
   FRONTEND_APP: industrial-frontend-demo
 
